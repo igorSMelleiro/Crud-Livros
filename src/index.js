@@ -61,18 +61,21 @@ app.put("/livros", (req, res, next) => {
     res.status(204).end();
 });
 
+app.delete("/livros/:id", (req, res, next) => {
+    const idLivroDel = req.params.id
+    livros.forEach((livro, index) => {
+        if (livro.id == req.body.id) {
+            livros.splice(index, 1)
+        }
+    })
+    res.status(200).json(livros);
+});
+
 app.delete("/livros", (req, res, next) => {
     livros.forEach((livro) => {
-        if (livro.id != req.body.id) {
-            const livro2 = {
-                id: livro.id,
-                titulo: livro.titulo,
-                descricao: livro.descricao,
-                edicao: livro.edicao,
-                autor: livro.autor,
-                isbn: livro.isbn
-            }
-            livros2.push(livro2)
+        if (livro.id === req.body.id) {
+            const index = livros.indexOf(livro, 0)
+            livros.splice(index, 1)
         }
     })
     livros = livros2;
